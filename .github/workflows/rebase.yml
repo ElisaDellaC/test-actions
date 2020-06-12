@@ -1,6 +1,7 @@
 on:
   issue_comment:
     types: [created]
+  pull_request:
 name: Automatic Rebase
 jobs:
   rebase:
@@ -17,8 +18,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Comment PR
-        uses: unsplash/comment-on-pr@master
-        env:
+        uses: thollander/actions-comment-pull-request@master
+        with:
+          message: '/test'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          with:
-            msg: 'RunTest'
