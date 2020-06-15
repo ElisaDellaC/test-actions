@@ -25,11 +25,23 @@ jobs:
           fetch-depth: 0
       - name: Automatic Rebase
         uses: cirrus-actions/rebase@1.3
-      - name: Comment PR
+      - name: Comment PR on success
+        if: ${{ success() }}     
         run: |
           curl \
             -X POST \
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": "Automatic rebase done" }'
+            --data '{ "body": "Automatic rebase successful 👌" }'
+      - name: Comment PR on failure
+        if: ${{ failure() }}     
+        run: |
+          curl \
+            -X POST \
+            $URL \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            --data '{ "body": "Automatic rebase nok" }'
+
+          

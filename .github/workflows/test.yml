@@ -48,10 +48,30 @@ jobs:
       shell: bash
       run: echo "Hello there!"
 
+    - name: Comment PR on failure
+      if: ${{ failure() }}     
+      run: |
+        curl \
+          -X POST \
+          $URL \
+          -H "Content-Type: application/json" \
+          -H "Authorization: token $GITHUB_TOKEN" \
+          --data '{ "body": "Automatic rebase nok" }'
+
+    - name: Comment PR on success
+      if: ${{ success() }}     
+      run: |
+        curl \
+          -X POST \
+          $URL \
+          -H "Content-Type: application/json" \
+          -H "Authorization: token $GITHUB_TOKEN" \
+          --data '{ "body": "Test successfully run 👌" }'
+
     - name: Exit
+      if: ${{ success() }}     
       shell: bash
       run: exit 0
-
 
   run-test-if-pr:
     if: contains( github.event.pull_request.labels.*.name, 'WIP') == false && github.event.pull_request.draft == false && github.event.comment.body ==''
