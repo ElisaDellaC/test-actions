@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       URL: ${{ github.event.issue.url }}
-      URL_COMMENT: ${{ github.event.issue.comments_url }}
+      URL_COMMENT: ${{ github.event.comment.url }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       ASSIGNEE: ${{ github.event.issue.actor.login}}
     steps:
@@ -29,41 +29,19 @@ jobs:
         if: ${{ success() }}     
         run: |
           curl \
-            -X POST \
+            -X PATCH \
             $URL_COMMENT \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{"body": "/test"}'
-
-
-
-      - uses: actions/github-script@master
-        with:
-          github-token: ${{secrets.PAT}}
-          script: |
-            github.issues.createComment({
-              body: '👋 Thanks for rebasing!'
-            })
-     
+            --data '{"body": "/test"}'     
       - name: Add label
         if: ${{ success() }}     
-        shell: bash
         run: |
           curl \
             -X POST \
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{"labels":["WIP"]}'
+            --data '{"labels":["missing test run"]}'
 
-      - name: Comment PR on failure
-        if: ${{ failure() }}     
-        run: |
-          curl \
-            -X POST \
-            $URL \
-            -H "Content-Type: application/json" \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": "- [ ] ❌ ❌ ❌  Automatic rebase nok ❌ ❌ ❌ " }'
-
-          
+      
