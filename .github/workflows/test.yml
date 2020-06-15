@@ -44,7 +44,7 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         checkName: rebase
-        ref: ${{ steps.pr_data.outputs.sha }}
+        ref: master
      
     - name: clone branch of PR
       if: steps.wait-for-build.outputs.conclusion == 'success'
