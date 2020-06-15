@@ -10,7 +10,7 @@ jobs:
     env:
       URL: ${{ github.event.issue.url }}
       URL_COMMENT: ${{ github.event.issue.comments_url }}
-      GITHUB_TOKEN: ${{ secrets.PAT }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       ASSIGNEE: ${{ github.event.issue.actor.login}}
     steps:
       - name: rocket
@@ -19,8 +19,6 @@ jobs:
         with:
           trigger: '/rebase'
           reaction: rocket
-        env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       - name: Checkout the latest code
         uses: actions/checkout@v2
         with:
