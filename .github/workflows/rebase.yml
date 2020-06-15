@@ -38,10 +38,10 @@ jobs:
             -H "Authorization: token $GITHUB_TOKEN" \
             --data '{"labels":["missing test run"]}'
       - name: rocket
-          if: ${{ success() }}     
-          uses: khan/pull-request-comment-trigger@master
-          id: check
-          with: 
-            trigger: '/rebase'
-            reaction: 👌
+        if: ${{ success() }}     
+        uses: khan/pull-request-comment-trigger@master
+        id: check
+        with: 
+          trigger: '/rebase'
+          reaction: 👌
       
