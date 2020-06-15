@@ -1,7 +1,6 @@
 on:
   issue_comment:
     types: [created]
-  pull_request:
 name: Automatic Rebase
 jobs:
   rebase:
