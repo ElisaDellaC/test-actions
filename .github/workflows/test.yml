@@ -26,6 +26,6 @@ jobs:
       
       - name: Info run
         run: |
-          echo $github.event.pull_request
-          echo $github.event.pull_request.head.ref
+          echo ${{ github.event.pull_request }}
+          echo ${{ github.event.pull_request.head.ref }}
           
