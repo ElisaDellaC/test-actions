@@ -61,6 +61,6 @@ jobs:
       
       - name: Info run
         run: |
-          echo ${{ github.event.comment.body }}
+          echo ${{ steps.pr_data.outputs.branch }}
           echo ${{ github.event.pull_request.head.ref }}
           
