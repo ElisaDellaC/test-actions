@@ -39,7 +39,7 @@ jobs:
 
 
 
-      - uses: actions/github-script@v2
+      - uses: actions/github-script@master
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
