@@ -2,7 +2,7 @@ name: test
 
 on:
   issue_comment:
-    types: [created, updated]
+    types: [created, edited]
   pull_request:
     branches: master
     types: [synchronize, opened, reopened, ready_for_review, unlabeled]
