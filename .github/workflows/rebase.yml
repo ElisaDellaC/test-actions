@@ -10,6 +10,7 @@ jobs:
     env:
       URL: ${{ github.event.issue.comments_url }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      ASSIGNEE: ${{ github.event.issue.actor.login}}
     steps:
       - name: rocket
         uses: khan/pull-request-comment-trigger@master
@@ -43,7 +44,7 @@ jobs:
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{"labels": ["bug"]}''
+            --data '{'{"labels":["WIP"], "assignee":$ASSIGNEE'}'
 
 
       - name: Comment PR on failure
