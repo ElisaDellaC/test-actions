@@ -37,28 +37,29 @@ jobs:
         echo "::set-output name=repo_name::${{ fromJson(steps.request.outputs.data).base.repo.full_name }}"
         echo "::set-output name=repo_clone_url::${{ fromJson(steps.request.outputs.data).base.repo.clone_url }}"
         echo "::set-output name=repo_ssh_url::${{ fromJson(steps.request.outputs.data).base.repo.ssh_url }}"
-     - name: Wait for rebase to succeed
-       uses: fountainhead/action-wait-for-check@v1.0.0
-       id: rebase
-       with:
-         token: ${{ secrets.GITHUB_TOKEN }}
-         checkName: rebase
-         ref: ${{ steps.pr_data.outputs.sha }}
      
-     - name: clone branch of PR
-       if: steps.wait-for-build.outputs.conclusion == 'success'
-       uses: actions/checkout@v2
-       with:
-         token: ${{ secrets.GITHUB_TOKEN }}
-         ref: ${{ steps.pr_data.outputs.branch }}
+    - name: Wait for rebase to succeed
+      uses: fountainhead/action-wait-for-check@v1.0.0
+      id: rebase
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        checkName: rebase
+        ref: ${{ steps.pr_data.outputs.sha }}
+     
+    - name: clone branch of PR
+      if: steps.wait-for-build.outputs.conclusion == 'success'
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        ref: ${{ steps.pr_data.outputs.branch }}
 
-     - name: Hello step
-       shell: bash
-       run: echo "Hello there!"
+    - name: Hello step
+      shell: bash
+      run: echo "Hello there!"
 
-     - name: Exit
-       shell: bash
-       run: exit 0
+    - name: Exit
+      shell: bash
+      run: exit 0
 
 
   run-test-if-pr:
