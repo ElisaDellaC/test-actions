@@ -1,0 +1,31 @@
+name: test
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request:
+    branches: master
+    types: [synchronize, opened, reopened, ready_for_review, unlabeled]
+
+jobs:
+  test:
+    # skip if the PR is a draft or if it has a WIP label
+    if: (contains( github.event.pull_request.labels.*.name, 'WIP') == false && github.event.pull_request.draft == false) || contains(github.event.comment.body, '/test')
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        # Pull the entire branch and not just the sigle commit
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Hello step
+        shell: bash
+        run: echo "Hello there!"
+      
+      - name: Info run
+        run: |
+          echo github.event.pull_request
+          echo github.event.pull_request.head.ref
+          
