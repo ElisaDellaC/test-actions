@@ -35,7 +35,7 @@ jobs:
             $URL_COMMENT \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{"body": "Hello $ASSIGNEE"}'
+            --data '{"body": "/test"}'
      
       - name: Add label
         if: ${{ success() }}     
@@ -46,7 +46,7 @@ jobs:
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{}'
+            --data '{"labels":["WIP"]}'
 
       - name: Comment PR on failure
         if: ${{ failure() }}     
