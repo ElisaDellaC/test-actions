@@ -44,7 +44,7 @@ jobs:
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{'{"labels":["WIP"], "assignee":"$ASSIGNEE"'}'
+            --data '{'{"labels":["WIP"]}'
 
 
       - name: Comment PR on failure
