@@ -39,7 +39,7 @@ jobs:
           echo "::set-output name=repo_ssh_url::${{ fromJson(steps.request.outputs.data).base.repo.ssh_url }}"
       
       
-        - name: clone branch of PR
+      - name: clone branch of PR
         if: steps.check.outputs.triggered == 'true'
         uses: actions/checkout@v2
         with:
