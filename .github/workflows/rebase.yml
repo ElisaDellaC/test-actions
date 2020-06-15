@@ -23,7 +23,7 @@ jobs:
         if: ${{ success() }}     
         run: |
           curl \
-            -X PATCH \
+            -X POST \
             $URL_COMMENT \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
