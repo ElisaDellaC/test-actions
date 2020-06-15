@@ -14,62 +14,61 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Wait for build to succeed
-        uses: fountainhead/action-wait-for-check@v1.0.0
-        id: wait-for-rebase
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: rebase
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+    - name: rocket
+      uses: khan/pull-request-comment-trigger@master
+      id: check
+      with:
+        trigger: '/rebase'
+        reaction: rocket
+      env:
+        GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+    - name: GitHub API Request
+      id: request
+      uses: octokit/request-action@v2.0.0
+      with:
+        route: ${{ github.event.issue.pull_request.url }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Get PR informations
+      id: pr_data
+      run: |
+        echo "::set-output name=branch::${{ fromJson(steps.request.outputs.data).head.ref }}"
+        echo "::set-output name=sha::${{ fromJson(steps.request.outputs.data).head.sha }}"
+        echo "::set-output name=repo_name::${{ fromJson(steps.request.outputs.data).base.repo.full_name }}"
+        echo "::set-output name=repo_clone_url::${{ fromJson(steps.request.outputs.data).base.repo.clone_url }}"
+        echo "::set-output name=repo_ssh_url::${{ fromJson(steps.request.outputs.data).base.repo.ssh_url }}"
+     - name: Wait for rebase to succeed
+       uses: fountainhead/action-wait-for-check@v1.0.0
+       id: rebase
+       with:
+         token: ${{ secrets.GITHUB_TOKEN }}
+         checkName: rebase
+         ref: ${{ steps.pr_data.outputs.sha }}
+     
+     - name: clone branch of PR
+       if: steps.wait-for-build.outputs.conclusion == 'success'
+       uses: actions/checkout@v2
+       with:
+         token: ${{ secrets.GITHUB_TOKEN }}
+         ref: ${{ steps.pr_data.outputs.branch }}
 
-      - name: rocket
-        if: steps.wait-for-build.outputs.conclusion == 'success'
-        uses: khan/pull-request-comment-trigger@master
-        id: check
-        with:
-          trigger: '/rebase'
-          reaction: rocket
-        env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      - name: GitHub API Request
-        id: request
-        uses: octokit/request-action@v2.0.0
-        with:
-          route: ${{ github.event.issue.pull_request.url }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Get PR informations
-        id: pr_data
-        run: |
-          echo "::set-output name=branch::${{ fromJson(steps.request.outputs.data).head.ref }}"
-          echo "::set-output name=repo_name::${{ fromJson(steps.request.outputs.data).base.repo.full_name }}"
-          echo "::set-output name=repo_clone_url::${{ fromJson(steps.request.outputs.data).base.repo.clone_url }}"
-          echo "::set-output name=repo_ssh_url::${{ fromJson(steps.request.outputs.data).base.repo.ssh_url }}"
-      
-      - name: clone branch of PR
-        uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          ref: ${{ steps.pr_data.outputs.branch }}
+     - name: Hello step
+       shell: bash
+       run: echo "Hello there!"
 
-      - name: Hello step
-        shell: bash
-        run: echo "Hello there!"
-
-      - name: Exit
-        shell: bash
-        run: exit 0
+     - name: Exit
+       shell: bash
+       run: exit 0
 
 
   run-test-if-pr:
-    if: contains( github.event.pull_request.labels.*.name, 'WIP') == false && github.event.pull_request.draft == false && contains(github.event.comment.body, '')
+    if: contains( github.event.pull_request.labels.*.name, 'WIP') == false && github.event.pull_request.draft == false && github.event.comment.body =='')
     runs-on: ubuntu-latest
 
     steps:
       - name: checkout in case of PR
-        if: steps.check.outputs.triggered == 'false'
         uses: actions/checkout@v2
-        # Pull the entire branch and not just the sigle commit
+        # Pull the entire branch and not just the single commit
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
