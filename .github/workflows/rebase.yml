@@ -34,19 +34,8 @@ jobs:
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": "/test" }'
+            --data '{ "body": "/test", "labels":["WIP"]}'
      
-      - name: Add label
-        if: ${{ success() }}     
-        shell: bash
-        run: |
-          curl \
-            -X POST \
-            $URL \
-            -H "Content-Type: application/json" \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{"labels":["WIP"]}'
-
       - name: Comment PR on failure
         if: ${{ failure() }}     
         run: |
