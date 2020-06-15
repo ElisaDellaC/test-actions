@@ -31,7 +31,7 @@ jobs:
           curl \
             -X POST \
             $URL \
-            -H "Content-Type: application/json" \
+            '-H "Content-Type: application/json" \'
             -H "Authorization: token $GITHUB_TOKEN" \
             --data '{ "body": "- [ ] 👌 👌 👌  Automatic rebase successful 👌 👌 👌" }'
      
@@ -43,7 +43,9 @@ jobs:
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            -d '["WIP"]'
+            --data '{"labels": ["bug"]}''
+
+
       - name: Comment PR on failure
         if: ${{ failure() }}     
         run: |
