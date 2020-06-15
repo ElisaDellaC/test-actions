@@ -10,7 +10,7 @@ on:
 jobs:
   test:
     # skip if the PR is a draft or if it has a WIP label
-    if: contains(github.event.comment.body, '/test') || (contains( github.event.pull_request.labels.*.name, 'WIP') == false && github.event.pull_request.draft == false) 
+    if: contains(github.event.comment.body, '/test')  
     runs-on: ubuntu-latest
 
     steps:
