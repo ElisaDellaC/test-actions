@@ -52,7 +52,7 @@ jobs:
 
 
   run-test-if-pr:
-    if: contains( github.event.pull_request.labels.*.name, 'WIP') == false && github.event.pull_request.draft == false
+    if: contains( github.event.pull_request.labels.*.name, 'WIP') == false && github.event.pull_request.draft == false && steps.check.outputs.triggered == 'false'
     runs-on: ubuntu-latest
 
     steps:
