@@ -1,6 +1,7 @@
 name: Issue Checklist Checker
 
-on: issues
+on:
+  issue_comment:
 
 jobs:
   checkIssue:
