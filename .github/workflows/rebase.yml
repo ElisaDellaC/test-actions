@@ -33,7 +33,7 @@ jobs:
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": "👌 👌 👌  Automatic rebase successful 👌 👌 👌" }'
+            --data '{ "body": "- [ ] 👌 👌 👌  Automatic rebase successful 👌 👌 👌" }'
       - name: Comment PR on failure
         if: ${{ failure() }}     
         run: |
@@ -42,6 +42,6 @@ jobs:
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": "❌ ❌ ❌  Automatic rebase nok ❌ ❌ ❌ " }'
+            --data '{ "body": "- [ ] ❌ ❌ ❌  Automatic rebase nok ❌ ❌ ❌ " }'
 
           
