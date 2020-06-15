@@ -16,14 +16,11 @@ jobs:
     steps:
       - name: Wait for build to succeed
         uses: fountainhead/action-wait-for-check@v1.0.0
-        id: Automatic Rebase
+        id: wait-for-rebase
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           checkName: rebase
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-
-
-
 
       - name: rocket
         if: steps.wait-for-build.outputs.conclusion == 'success'
