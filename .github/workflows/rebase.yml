@@ -8,9 +8,10 @@ jobs:
     if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '/rebase')
     runs-on: ubuntu-latest
     env:
-      URL: ${{ github.event.issue.html_url }}
+      URL: ${{ github.event.issue.url }}
+      URL_COMMENT: ${{ github.event.issue.comments_url }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      ASSIGNED: ${{ github.event.issue.user.login }}
+      ASSIGNEE: ${{ github.event.issue.actor.login}}
     steps:
       - name: rocket
         uses: khan/pull-request-comment-trigger@master
@@ -31,11 +32,22 @@ jobs:
         run: |
           curl \
             -X POST \
+            $URL_COMMENT \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            --data '{"body": "/test"}'
+     
+      - name: Add label
+        if: ${{ success() }}     
+        shell: bash
+        run: |
+          curl \
+            -X POST \
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": "/test", "labels":["WIP"]}'
-     
+            --data '{}'
+
       - name: Comment PR on failure
         if: ${{ failure() }}     
         run: |
