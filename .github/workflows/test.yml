@@ -10,14 +10,27 @@ on:
 jobs:
   run-test-if-comment:
     # skip if the PR is a draft or if it has a WIP label
-    if: contains(github.event.comment.body, '/test')
+    if: contains(github.event.comment.body, '/rebase')
     runs-on: ubuntu-latest
 
     steps:
-      - uses: khan/pull-request-comment-trigger@master
+      - name: Wait for build to succeed
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        id: Automatic Rebase
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: rebase
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+
+
+
+      - name: rocket
+        if: steps.wait-for-build.outputs.conclusion == 'success'
+        uses: khan/pull-request-comment-trigger@master
         id: check
         with:
-          trigger: '/test'
+          trigger: '/rebase'
           reaction: rocket
         env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
