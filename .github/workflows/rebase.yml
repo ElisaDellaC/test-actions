@@ -38,6 +38,7 @@ jobs:
      
       - name: Add label
         if: ${{ success() }}     
+        shell: bash
         run: |
           curl \
             -X POST \
@@ -45,7 +46,6 @@ jobs:
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
             --data '{"labels":["WIP"]}'
-
 
       - name: Comment PR on failure
         if: ${{ failure() }}     
