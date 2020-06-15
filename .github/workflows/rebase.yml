@@ -43,5 +43,5 @@ jobs:
         id: check
         with: 
           trigger: '/rebase'
-          reaction: 👌
+          reaction: white-heavy-check-mark
       
