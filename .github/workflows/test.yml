@@ -63,7 +63,7 @@ jobs:
 
 
   run-test-if-pr:
-    if: contains( github.event.pull_request.labels.*.name, 'WIP') == false && github.event.pull_request.draft == false && github.event.comment.body =='')
+    if: contains( github.event.pull_request.labels.*.name, 'WIP') == false && github.event.pull_request.draft == false && github.event.comment.body ==''
     runs-on: ubuntu-latest
 
     steps:
