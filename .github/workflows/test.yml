@@ -48,7 +48,7 @@ jobs:
 
 
       - name: checkout in case of PR
-        if: steps.check.outputs.triggered == 'true'
+        if: steps.check.outputs.triggered == 'false'
         uses: actions/checkout@v2
         # Pull the entire branch and not just the sigle commit
         with:
