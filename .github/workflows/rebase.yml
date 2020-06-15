@@ -34,6 +34,15 @@ jobs:
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
             --data '{ "body": "- [ ] 👌 👌 👌  Automatic rebase successful 👌 👌 👌" }'
+     - name: Add label
+        if: ${{ success() }}     
+        run: |
+          curl \
+            -X POST \
+            $URL \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -d '["WIP"]'
       - name: Comment PR on failure
         if: ${{ failure() }}     
         run: |
