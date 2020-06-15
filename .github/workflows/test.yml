@@ -12,6 +12,9 @@ jobs:
     # skip if the PR is a draft or if it has a WIP label
     if: contains(github.event.comment.body, '/test')
     runs-on: ubuntu-latest
+    env:
+      URL: ${{ github.event.issue.comments_url }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
     - name: rocket
@@ -20,15 +23,12 @@ jobs:
       with:
         trigger: '/test'
         reaction: rocket
-      env:
-        GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
     - name: GitHub API Request
       id: request
       uses: octokit/request-action@v2.0.0
       with:
         route: ${{ github.event.issue.pull_request.url }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Get PR informations
       id: pr_data
       run: |
@@ -56,7 +56,7 @@ jobs:
           $URL \
           -H "Content-Type: application/json" \
           -H "Authorization: token $GITHUB_TOKEN" \
-          --data '{ "body": "Automatic rebase nok" }'
+          --data '{ "body": "❌ ❌ ❌ Test have failed ❌ ❌ ❌" }'
 
     - name: Comment PR on success
       if: ${{ success() }}     
@@ -66,7 +66,7 @@ jobs:
           $URL \
           -H "Content-Type: application/json" \
           -H "Authorization: token $GITHUB_TOKEN" \
-          --data '{ "body": "Test successfully run 👌" }'
+          --data '{ "body": "👌 👌 👌  Test successfully run 👌 👌 👌" }'
 
     - name: Exit
       if: ${{ success() }}     
