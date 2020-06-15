@@ -11,6 +11,14 @@ jobs:
       URL: ${{ github.event.issue.comments_url }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: rocket
+        uses: khan/pull-request-comment-trigger@master
+        id: check
+        with:
+          trigger: '/rebase'
+          reaction: rocket
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       - name: Checkout the latest code
         uses: actions/checkout@v2
         with:
@@ -24,4 +32,4 @@ jobs:
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": "/test" }'
+            --data '{ "body": "Automatic rebase done" }'
