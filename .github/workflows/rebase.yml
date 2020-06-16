@@ -55,7 +55,9 @@ jobs:
             $URL_COMMENT \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{"body": "'"❌ -- Failure in the Automated Rebase //n --> Check https://github.com/$GITHUB_REPOSITORY/actions/runs/$RUN_ID @$ASSIGNEE, PR has been flagged as WIP"'"}'     
+            --data '{"body": "'"❌ -- Failure in the Automated Rebase  
+            --> Check https://github.com/$GITHUB_REPOSITORY/actions/runs/$RUN_ID  
+            @$ASSIGNEE, PR has been flagged as WIP"'"}'     
       - name: Add label
         if: ${{ failure() }}     
         run: |
