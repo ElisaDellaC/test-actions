@@ -45,5 +45,5 @@ jobs:
         id: check
         with: 
           trigger: '/rebase'
-          reaction: heavy_check_mark
+          reaction: thumbs-up-sign
       
