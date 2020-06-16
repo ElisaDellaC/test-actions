@@ -35,7 +35,9 @@ jobs:
             $URL_COMMENT \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{"body": "'"✅  Automated Rebase successful //n --> Check https://github.com/$GITHUB_REPOSITORY/actions/runs/$RUN_ID Remove the test-out-of-date label to trigger a new test run"'"}'     
+            --data '{"body": "'"✅ -- Automated Rebase successful   
+            --> Check https://github.com/$GITHUB_REPOSITORY/actions/runs/$RUN_ID  
+            Remove the test-out-of-date label to trigger a new test run"'"}'     
       - name: Add label
         if: ${{ success() }}     
         run: |
