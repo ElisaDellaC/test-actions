@@ -20,7 +20,7 @@ jobs:
         id: check
         with: 
           trigger: '/rebase'
-          reaction: gfdjglkfdjlgjkd
+          reaction: rocket
       - name: Checkout the latest code
         uses: actions/checkout@v2
         with:
