@@ -11,7 +11,7 @@ jobs:
       URL: ${{ github.event.issue.url }}
       URL_COMMENT: ${{ github.event.issue.comments_url }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      ASSIGNEE: ${{ github.event.issue.actor.login}}
+      ASSIGNEE: ${{ github.event.issue.user.login}}
       RUN_ID: ${{ github.run_id}}
       GITHUB_REPOSITORY: ${{ github.repository }}
     steps:
@@ -55,7 +55,7 @@ jobs:
             $URL_COMMENT \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{"body": "'"❌  Failure in the Automated Rebase //n --> Check https://github.com/$GITHUB_REPOSITORY/actions/runs/$RUN_ID @$ASSIGNEE, PR has been flagged as WIP"'"}'     
+            --data '{"body": "'"❌ -- Failure in the Automated Rebase //n --> Check https://github.com/$GITHUB_REPOSITORY/actions/runs/$RUN_ID @$ASSIGNEE, PR has been flagged as WIP"'"}'     
       - name: Add label
         if: ${{ failure() }}     
         run: |
