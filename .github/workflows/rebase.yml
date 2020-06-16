@@ -15,6 +15,12 @@ jobs:
       RUN_ID: ${{ github.run_id}}
       GITHUB_REPOSITORY: ${{ github.repository }}
     steps:
+      - name: Add reaction - rebase started
+        uses: khan/pull-request-comment-trigger@master
+        id: check
+        with: 
+          trigger: '/rebase'
+          reaction: rocket
       - name: Checkout the latest code
         uses: actions/checkout@v2
         with:
@@ -29,8 +35,7 @@ jobs:
             $URL_COMMENT \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{"body": "'"$RUN_ID completed. Check https://github.com/$GITHUB_REPOSITORY/actions/runs/$RUN_ID"'"}'     
-
+            --data '{"body": "'"✅ Automated Rebase successful --> Check https://github.com/$GITHUB_REPOSITORY/actions/runs/$RUN_ID Remove the test-out-of-date label to trigger a new test run"'"}'     
       - name: Add label
         if: ${{ success() }}     
         run: |
@@ -39,12 +44,23 @@ jobs:
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{"labels":["missing test run"]}'
-      - name: rocket
-        if: ${{ success() }}     
-        uses: khan/pull-request-comment-trigger@master
-        id: check
-        with: 
-          trigger: '/rebase'
-          reaction: +1
-      
+            --data '{"labels":["test-results-out-of-date"]}'
+      - name: Comment PR on failure
+        if: ${{ failure() }}     
+        run: |
+          curl \
+            -X POST \
+            $URL_COMMENT \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            --data '{"body": "'"❌ Failure in the Automated Rebase --> Check https://github.com/$GITHUB_REPOSITORY/actions/runs/$RUN_ID @$ASSIGNEE, PR has been flagged as WIP"'"}'     
+      - name: Add label
+        if: ${{ failure() }}     
+        run: |
+          curl \
+            -X POST \
+            $URL \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            --data '{"labels":["WIP"]}'
+     

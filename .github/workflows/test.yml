@@ -1,80 +1,13 @@
 name: test
 
 on:
-  issue_comment:
-    types: [created, edited]
   pull_request:
     branches: master
     types: [synchronize, opened, reopened, ready_for_review, unlabeled]
 
 jobs:
-  run-test-if-comment:
-    # skip if the PR is a draft or if it has a WIP label
-    if: contains(github.event.comment.body, '/test')
-    runs-on: ubuntu-latest
-    env:
-      URL: ${{ github.event.issue.comments_url }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    steps:
-    - name: rocket
-      uses: khan/pull-request-comment-trigger@master
-      id: check
-      with:
-        trigger: '/test'
-        reaction: rocket
-    - name: GitHub API Request
-      id: request
-      uses: octokit/request-action@v2.0.0
-      with:
-        route: ${{ github.event.issue.pull_request.url }}
-
-    - name: Get PR informations
-      id: pr_data
-      run: |
-        echo "::set-output name=branch::${{ fromJson(steps.request.outputs.data).head.ref }}"
-        echo "::set-output name=sha::${{ fromJson(steps.request.outputs.data).head.sha }}"
-        echo "::set-output name=repo_name::${{ fromJson(steps.request.outputs.data).base.repo.full_name }}"
-        echo "::set-output name=repo_clone_url::${{ fromJson(steps.request.outputs.data).base.repo.clone_url }}"
-        echo "::set-output name=repo_ssh_url::${{ fromJson(steps.request.outputs.data).base.repo.ssh_url }}"
-     
-    - name: clone branch of PR
-      uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        ref: ${{ steps.pr_data.outputs.branch }}
-
-    - name: Hello step
-      shell: bash
-      run: echo "Hello there!"
-
-    - name: Comment PR on failure
-      if: ${{ failure() }}     
-      run: |
-        curl \
-          -X POST \
-          $URL \
-          -H "Content-Type: application/json" \
-          -H "Authorization: token $GITHUB_TOKEN" \
-          --data '{ "body": "- [ ] ❌ ❌ ❌ Test have failed ❌ ❌ ❌" }'
-
-    - name: Comment PR on success
-      if: ${{ success() }}     
-      run: |
-        curl \
-          -X POST \
-          $URL \
-          -H "Content-Type: application/json" \
-          -H "Authorization: token $GITHUB_TOKEN" \
-          --data '{ "body": "- [ ] 👌 👌 👌  Test successfully run 👌 👌 👌" }'
-
-    - name: Exit
-      if: ${{ success() }}     
-      shell: bash
-      run: exit 0
-
-  run-test-if-pr:
-    if: contains( github.event.pull_request.labels.*.name, 'WIP') == false && github.event.pull_request.draft == false && github.event.comment.body ==''
+    run-test-if-pr:
+    if: contains( github.event.pull_request.labels.*.name, 'WIP') == false && contains( github.event.pull_request.labels.*.name, 'test-results-out-of-date') == false && github.event.pull_request.draft == false && github.event.comment.body ==''
     runs-on: ubuntu-latest
 
     steps:
