@@ -6,7 +6,7 @@ on:
     types: [synchronize, opened, reopened, ready_for_review, unlabeled]
 
 jobs:
-    run-test-if-pr:
+  run-test-if-pr:
     if: contains( github.event.pull_request.labels.*.name, 'WIP') == false && contains( github.event.pull_request.labels.*.name, 'test-results-out-of-date') == false && github.event.pull_request.draft == false && github.event.comment.body ==''
     runs-on: ubuntu-latest
 
