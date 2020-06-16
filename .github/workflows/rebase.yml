@@ -28,7 +28,7 @@ jobs:
             $URL_COMMENT \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{"body": """$RUN_ID"""}'     
+            --data '{"body": "'"$RUN_ID completed"'"}'     
 
       - name: Add label
         if: ${{ success() }}     
