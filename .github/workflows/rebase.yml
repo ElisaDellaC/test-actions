@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       URL: ${{ github.event.issue.url }}
-      URL_COMMENT: ${{ github.event.issue.comments_url }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       ASSIGNEE: ${{ github.event.issue.user.login}}
       RUN_ID: ${{ github.run_id}}
@@ -27,22 +26,13 @@ jobs:
           fetch-depth: 0
       - name: Automatic Rebase
         uses: cirrus-actions/rebase@1.3
-      - name: Comment PR on success
+      - name: Comment PR on rebase success
         if: ${{ success() }}     
-        run: |
-          curl \
-            -X POST \
-            $URL_COMMENT \
-            -H "Content-Type: application/json" \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{"body": "'"✅ \n -- Automated Rebase successful - Check https://github.com/$GITHUB_REPOSITORY/actions/runs/$RUN_ID . Remove the test-out-of-date label to trigger a new test run"'"}'     
-      - name: Comment urls
         uses: actions/github-script@v2
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-          
-            const comment = `✅ \n -- Automated Rebase successful - Check https://github.com/${{env.GITHUB_REPOSITORY}}/actions/runs/${{env.RUN_ID}} . Remove the test-out-of-date label to trigger a new test run`
+            const comment = `✅ &nbsp; Automated Rebase successful /n --> https://github.com/${{env.GITHUB_REPOSITORY}}/actions/runs/${{env.RUN_ID}} /n --> Remove the test-out-of-date label to trigger a new test run`
             await github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -50,7 +40,7 @@ jobs:
               body: comment
             })
       
-      - name: Add label
+      - name: Add test-results-out-of-date on rebase success
         if: ${{ success() }}     
         run: |
           curl \
