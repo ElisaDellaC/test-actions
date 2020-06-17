@@ -41,7 +41,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const comment = '"✅ \n -- Automated Rebase successful - Check https://github.com/$GITHUB_REPOSITORY/actions/runs/$RUN_ID . Remove the test-out-of-date label to trigger a new test run"'
+            const comment = "✅ \n -- Automated Rebase successful - Check https://github.com/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID} . Remove the test-out-of-date label to trigger a new test run"
             await github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
