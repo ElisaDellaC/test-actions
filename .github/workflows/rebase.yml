@@ -10,7 +10,6 @@ jobs:
     env:
       URL: ${{ github.event.issue.url }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      ASSIGNEE: ${{ github.event.issue.user.login}}
       RUN_ID: ${{ github.run_id}}
       GITHUB_REPOSITORY: ${{ github.repository }}
     steps:
@@ -32,14 +31,13 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const comment = `✅ &nbsp; Automated Rebase successful /n --> https://github.com/${{env.GITHUB_REPOSITORY}}/actions/runs/${{env.RUN_ID}} /n --> Remove the test-out-of-date label to trigger a new test run`
+            const comment = `✅ &nbsp; Automated Rebase successful \n--> https://github.com/${{env.GITHUB_REPOSITORY}}/actions/runs/${{env.RUN_ID}} \n --> Remove the test-out-of-date label to trigger a new test run`
             await github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: comment
-            })
-      
+            })    
       - name: Add test-results-out-of-date on rebase success
         if: ${{ success() }}     
         run: |
@@ -51,14 +49,18 @@ jobs:
             --data '{"labels":["test-results-out-of-date"]}'
       - name: Comment PR on failure
         if: ${{ failure() }}     
-        run: |
-          curl \
-            -X POST \
-            $URL_COMMENT \
-            -H "Content-Type: application/json" \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{"body": "'"❌ -- Failure in the Automated Rebase - Check https://github.com/$GITHUB_REPOSITORY/actions/runs/$RUN_ID . @$ASSIGNEE, PR has been flagged as WIP"'"}'     
-      - name: Add label
+        uses: actions/github-script@v2
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const comment = `❌ &nbsp; Automated Rebase failure \n--> https://github.com/${{env.GITHUB_REPOSITORY}}/actions/runs/${{env.RUN_ID}} \n --> PR has been labled as WIP`
+            await github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            })
+      - name: Add label on failre
         if: ${{ failure() }}     
         run: |
           curl \
