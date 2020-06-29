@@ -1,0 +1,23 @@
+name: update-percy-benchmarks
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  update-percy-benchmarks:
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node12.16.2-chrome81-ff75
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: jwalton/gh-find-current-pr@v1
+        id: findPr
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: echo "Your PR is ${PR}"
+        if: success() && steps.findPr.outputs.number
+        env:
+          PR: ${{ steps.findPr.outputs.pr }}
