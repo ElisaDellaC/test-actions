@@ -1,12 +1,6 @@
 name: triggers-test
 
-on:
-  pull_request:
-    branches: master
-    types: [synchronize, opened, reopened, ready_for_review]
-  push:
-    branches:
-      - master
+
 
 jobs:
   job-1:
