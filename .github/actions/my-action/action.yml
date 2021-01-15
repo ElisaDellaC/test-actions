@@ -12,7 +12,7 @@ outputs:
 runs:
   using: "composite"
   steps: 
-    - run: echo Ciao
+    - run: echo Puppa
       shell: bash
-    - run: echo Ciao
+    - run: echo Puppa
       shell: bash
