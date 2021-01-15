@@ -1,0 +1,8 @@
+name: 'my-action'
+runs:
+  using: "docker"
+steps: 
+    - run: echo "Hello"
+      shell: bash
+    - run: echo "you!"
+      shell: bash
