@@ -14,10 +14,16 @@ jobs:
     steps:
       - name: Step1
         run: exit 1
-  job2:
+  job-2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step1
+        run: exit 0
+  job-3:
     if:  success() && github.event_name == 'push' && github.ref == 'refs/heads/master' 
     needs: 
       - job-1
+      - job-2
     runs-on: ubuntu-latest
     steps:
       - name: Step2
