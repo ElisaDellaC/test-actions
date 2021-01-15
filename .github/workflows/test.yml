@@ -8,5 +8,5 @@ jobs:
   my_first_job:
      runs-on: ubuntu-latest
      steps: 
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/my-action@v1
+      - uses: actions/checkout@master
+      - uses: ./.github/actions/my-action
