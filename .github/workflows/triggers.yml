@@ -4,7 +4,6 @@ on:
   pull_request:
     branches: master
     types: [synchronize, opened, reopened, ready_for_review]
-
   push:
     branches:
       - master
@@ -20,4 +19,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Step2
-      - run: echo 'I only run after pushing to master'
+        run: echo 'I only run after pushing to master'
