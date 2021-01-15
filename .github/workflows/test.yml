@@ -1,0 +1,13 @@
+name: use my action
+on:
+  pull_request:
+    branches: master
+    types: [synchronize, opened, reopened, ready_for_review]
+
+jobs:
+  my_first_job:
+     runs-on: ubuntu-latest
+     steps: 
+      - uses: actions/checkout@v2
+        name: Checkout
+      - uses: ./.github/actions/my-action@v1

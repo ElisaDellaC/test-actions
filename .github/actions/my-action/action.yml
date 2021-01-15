@@ -1,0 +1,9 @@
+name: 'my-action'
+description: "I'm an action"
+runs:
+  using: "composite"
+steps: 
+    - run: echo "Hello"
+      shell: bash
+    - run: echo "you!"
+      shell: bash
