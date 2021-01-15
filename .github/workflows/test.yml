@@ -10,4 +10,4 @@ jobs:
      steps: 
       - uses: actions/checkout@v2
         name: Checkout
-      - uses: ElisaDellaC/test-actions/.github/actions/my-action@master
+      - uses: ./.github/actions/my-action@master
