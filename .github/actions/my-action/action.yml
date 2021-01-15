@@ -2,7 +2,7 @@ name: 'my-action'
 description: "I'm an action"
 runs:
   using: "composite"
-steps: 
+  steps: 
     - run: echo "Hello"
       shell: bash
     - run: echo "you!"
