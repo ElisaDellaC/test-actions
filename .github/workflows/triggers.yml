@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Step1
-        run: echo 'I always run'
+        run: exit 1
   job2:
     if:  success() && github.event_name == 'push' && github.ref == 'refs/heads/master' 
     needs: 
