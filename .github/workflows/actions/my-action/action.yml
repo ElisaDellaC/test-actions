@@ -1,6 +1,7 @@
 name: 'my-action'
+description: "I'm an action"
 runs:
-  using: "docker"
+  using: "composite"
 steps: 
     - run: echo "Hello"
       shell: bash
