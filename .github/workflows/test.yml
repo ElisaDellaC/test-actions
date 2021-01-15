@@ -8,5 +8,6 @@ jobs:
   my_first_job:
      runs-on: ubuntu-latest
      steps: 
-      - uses: actions/checkout@v2
-      - uses: ElisaDellaC/test-actions/.github/actions/my-action@v1
+      - uses: actions/checkout@master
+        name: Checkout
+      - uses: test-actions/.github/actions/my-action@v1
