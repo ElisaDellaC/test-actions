@@ -1,7 +1,9 @@
 name: triggers-test
 
-
-
+on:
+  push:
+    branches:
+      - master
 jobs:
   job-1:
     runs-on: ubuntu-latest
