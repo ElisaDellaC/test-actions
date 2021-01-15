@@ -1,0 +1,23 @@
+name: triggers-test
+
+on:
+  pull_request:
+    branches: master
+    types: [synchronize, opened, reopened, ready_for_review]
+
+  push:
+    branches:
+      - master
+
+jobs:
+  job-1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step1
+        run: echo 'I always run'
+  job2:
+    if:  github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step2
+      - run: echo 'I only run after pushing to master'
