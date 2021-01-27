@@ -11,7 +11,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Step1
-        env:
-          GITHUB_CONTEXT: ${{ github.event.workflow_run.head_commit.id }}
         run: |
-          echo my commit sha is: "$GITHUB_CONTEXT"
+          echo ${{ github.event.workflow_run.head_commit.id  }}
