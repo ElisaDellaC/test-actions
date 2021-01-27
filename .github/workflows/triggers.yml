@@ -1,26 +1,12 @@
 name: triggers-test
 
 on:
-  push:
-    branches:
-      - master
+  repository_dispatch:
+    types: [trigger-percy-status-wkfl]
+
 jobs:
   job-1:
     runs-on: ubuntu-latest
     steps:
       - name: Step1
         run: exit 0
-  job-2:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Step1
-        run: exit 0
-  job-3:
-    if:  success() && github.event_name == 'push' && github.ref == 'refs/heads/master' 
-    needs: 
-      - job-1
-      - job-2
-    runs-on: ubuntu-latest
-    steps:
-      - name: Step2
-        run: echo 'I only run after pushing to master'
