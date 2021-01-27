@@ -1,8 +1,10 @@
 name: triggers-test
 
 on:
-  repository_dispatch:
-    types: [trigger-percy-status-wkfl]
+  workflow_run:
+    workflows: ["push-to-master"]
+    types: 
+      - completed
 
 jobs:
   job-1:
