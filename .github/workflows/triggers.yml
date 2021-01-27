@@ -12,6 +12,6 @@ jobs:
     steps:
       - name: Step1
         env:
-          GITHUB_CONTEXT: ${{ toJson(github.event) }}
+          GITHUB_CONTEXT: ${{ github.event.workflow_run.head_commit.id }}
         run: |
-          echo "$GITHUB_CONTEXT"
+          echo my commit sha is: "$GITHUB_CONTEXT"
