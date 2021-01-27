@@ -13,3 +13,5 @@ jobs:
       - name: Step1
         run: |
           echo ${{ github.event.workflow_run.head_commit.id  }}
+          echo ${{ github.event.workflow_run.conclusion }}
+          
