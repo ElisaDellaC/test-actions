@@ -11,7 +11,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Step1
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github.event) }}
         run: |
-          echo "$GITHUB_CONTEXT"
+          echo ${{ github.event.workflow_run.head_commit.id  }}
