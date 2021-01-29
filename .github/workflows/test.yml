@@ -3,8 +3,10 @@ on:
   pull_request:
     branches:
       - master
-    
-
+  push:
+    branches:
+      - master
+      
 jobs:
   my_first_job:
      runs-on: ubuntu-latest
