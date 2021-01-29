@@ -22,7 +22,6 @@ jobs:
       - name: Enable merge if no percy checks pending
         shell: bash
         run: |  
-          echo ${{ toJson(github.event) }}
           echo 'my trigger is: ' $TRIGGER_EVENT_NAME
 
           if [ "$TRIGGER_EVENT_NAME" = 'pull_request' ]; then
@@ -30,7 +29,7 @@ jobs:
             prNumber=${{ github.event.number }}
           else
             sha=${{ github.event.workflow_run.head_commit.id }}
-            prNumber=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/search/issues\?q\="${sha}" | jq '. | .items' | jq '.[]' | jq '.number')
+            #prNumber=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/search/issues\?q\="${sha}" | jq '. | .items' | jq '.[]' | jq '.number')
           fi
 
           echo 'my commit is:' "${sha}"         
