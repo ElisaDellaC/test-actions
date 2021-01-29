@@ -29,7 +29,7 @@ jobs:
             prNumber=${{ github.event.number }}
           else
             sha=${{ github.event.workflow_run.head_commit.id }}
-            #prNumber=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/search/issues\?q\="${sha}" | jq '. | .items' | jq '.[]' | jq '.number')
+            prNumber=21
           fi
 
           echo 'my commit is:' "${sha}"         
