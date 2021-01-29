@@ -21,4 +21,6 @@ jobs:
     steps:
       - name: Enable merge if no percy checks pending
         shell: bash
-        run:  bash -x  .github/workflows/script.sh
+        run: | 
+          chmod +x ./.github/workflows/script.sh
+          bash -x  ./.github/workflows/script.sh
