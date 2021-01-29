@@ -22,6 +22,7 @@ jobs:
       - name: Enable merge if no percy checks pending
         shell: bash
         run: |  
+          echo ${{ toJson(github.event) }}
           echo 'my trigger is: ' $TRIGGER_EVENT_NAME
           echo 'my event is: ' ${{ github.event }}
 
