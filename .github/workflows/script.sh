@@ -1,12 +1,11 @@
 #!/bin/bash
-echo ${{ toJson(github.event) }}
 echo 'my trigger is: ' $TRIGGER_EVENT_NAME
 
           if [ "$TRIGGER_EVENT_NAME" == pull_request ]; then
-            sha=${{ github.event.pull_request.head.sha }}
-            prNumber=${{ github.event.number }}
+            sha=$PR_SHA
+            prNumber=$PR_NUM
           else
-            sha=${{ github.event.workflow_run.head_commit.id }}
+            sha=$WKFL_SHA
             prNumber=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/search/issues\?q\="${sha}" | jq '. | .items' | jq '.[]' | jq '.number')
           fi
 
