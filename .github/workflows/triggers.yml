@@ -19,6 +19,10 @@ jobs:
      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Enable merge if no percy checks pending
         shell: bash
         run: | 
