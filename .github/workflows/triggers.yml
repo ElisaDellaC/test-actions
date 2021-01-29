@@ -29,6 +29,5 @@ jobs:
       - name: Enable merge if no percy checks pending
         shell: bash
         run: | 
-          echo ${{ toJson(github.event) }}
           chmod +x ./.github/workflows/script.sh
           bash -x  ./.github/workflows/script.sh
