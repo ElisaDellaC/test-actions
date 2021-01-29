@@ -6,16 +6,14 @@ echo 'my trigger is: ' $TRIGGER_EVENT_NAME
             sha=${{ github.event.pull_request.head.sha }}
             prNumber=${{ github.event.number }}
           else
-            sha=e93a34d0fda322af430777b93bc1bbfc6a209155
-            prNumber=21
+            sha=${{ github.event.workflow_run.head_commit.id }}
+            prNumber=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/search/issues\?q\="${sha}" | jq '. | .items' | jq '.[]' | jq '.number')
           fi
 
           echo my commit is: "${sha}"         
           echo my PR is: "${prNumber}"
           
           numberSuccessCheckSuites=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/ElisaDellaC/test-actions/commits/"${sha}"/check-suites | jq '.check_suites' | jq '.[] | select(.app.slug=="github-actions") |.conclusion' | jq  'select(. == "success")' | jq -s '.' | jq length)
-          
-          
           numberPercyLabels=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/ElisaDellaC/test-actions/issues/"${prNumber}" | jq '.labels' | jq '.[] | .name' | jq 'select(. == "check-percy-results-before-merge")' | jq -s '.' | jq length)
 
           echo 'successful checks:' $numberSuccessCheckSuites
