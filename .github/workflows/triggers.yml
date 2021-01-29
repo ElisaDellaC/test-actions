@@ -32,8 +32,8 @@ jobs:
             prNumber=21
           fi
 
-          echo 'my commit is:' "${sha}"         
-          echo 'my PR is:' "${prNumber}"
+          echo my commit is: "${sha}"         
+          echo my PR is: "${prNumber}"
           
           numberSuccessCheckSuites=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/rosahealth/rosa/commits/"${sha}"/check-suites | jq '.check_suites' | jq '.[] | select(.app.slug=="github-actions") |.conclusion' | jq  'select(. == "success")' | jq -s '.' | jq length)
           numberPercyLabels=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/rosahealth/rosa/issues/"${prNumber}" | jq '.labels' | jq '.[] | .name' | jq 'select(. == "check-percy-results-before-merge")' | jq -s '.' | jq length)
