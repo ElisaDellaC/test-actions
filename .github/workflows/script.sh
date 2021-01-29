@@ -1,5 +1,5 @@
 #!/bin/bash
-
+echo ${{ toJson(github.event) }}
 echo 'my trigger is: ' $TRIGGER_EVENT_NAME
 
           if [ "$TRIGGER_EVENT_NAME" == pull_request ]; then
