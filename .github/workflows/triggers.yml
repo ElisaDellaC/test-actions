@@ -17,6 +17,9 @@ jobs:
     env:
      TRIGGER_EVENT_NAME: ${{ github.event_name }}
      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+     PR_SHA: ${{ github.event.pull_request.head.sha }}
+     PR_NUM: ${{ github.event.number }}
+     WKFL_SHA: ${{ github.event.workflow_run.head_commit.id }}      
 
     steps:
       - name: Checkout repo
@@ -26,5 +29,6 @@ jobs:
       - name: Enable merge if no percy checks pending
         shell: bash
         run: | 
+          echo ${{ toJson(github.event) }}
           chmod +x ./.github/workflows/script.sh
           bash -x  ./.github/workflows/script.sh
