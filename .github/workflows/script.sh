@@ -6,7 +6,7 @@ echo 'my trigger is: ' $TRIGGER_EVENT_NAME
             prNumber=$PR_NUM
           else
             sha=$WKFL_SHA
-            prNumber=$( curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/search/issues\?q\=8beefa0 | jq '. | .items' | jq '.[] | select(.state=="open")' | jq '.number')
+            prNumber=$( curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/search/issues\?q\="${sha}" | jq '. | .items' | jq '.[] | select(.state=="open")' | jq '.number')
           fi
 
           echo 'my commit is:' "${sha}"         
