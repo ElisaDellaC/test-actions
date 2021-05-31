@@ -9,13 +9,20 @@ on:
       
 jobs:
   my_first_job:
+     if: github.event.pull_request.user.login != 'ElisaDellaC'
      runs-on: ubuntu-latest
      steps: 
-      - run: echo github.event.pull_request.user.login
       - run: echo ${{ github.event.pull_request.user.login }}
       - run: exit 1
-  
+      - name: cancel workflow
+        if: failure()
+        uses: andymckay/cancel-action@0.2
+
   my_second_job:
      runs-on: ubuntu-latest
      steps: 
-      - run: npm install
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - run: sleep 50
