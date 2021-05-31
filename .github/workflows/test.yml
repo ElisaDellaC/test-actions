@@ -11,11 +11,20 @@ jobs:
   my_first_job:
      runs-on: ubuntu-latest
      steps: 
-      - run: echo github.event.pull_request.user.login
       - run: echo ${{ github.event.pull_request.user.login }}
       - run: exit 1
-  
+      - uses: vishnudxb/cancel-workflow@v1.2
+        if: failure()
+        with:
+          repo: ElisaDellaC/test-actions
+          workflow_id: ${{ github.run_id }}
+          access_token: ${{ github.token }}
+
   my_second_job:
      runs-on: ubuntu-latest
      steps: 
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - run: npm install
