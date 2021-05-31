@@ -9,7 +9,7 @@ on:
       
 jobs:
   my_first_job:
-     if: github.event.pull_request.user.login != "ElisaDellaC"
+     if: github.event.pull_request.user.login != 'ElisaDellaC'
      runs-on: ubuntu-latest
      steps: 
       - run: echo ${{ github.event.pull_request.user.login }}
