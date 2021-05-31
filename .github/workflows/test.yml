@@ -9,10 +9,11 @@ on:
       
 jobs:
   my_first_job:
+     if: github.event.pull_request.user.login !== "ElisaDellaC"
      runs-on: ubuntu-latest
      steps: 
       - run: echo ${{ github.event.pull_request.user.login }}
-      - run: exit 0
+      - run: exit 1
       - name: cancel workflow
         if: failure()
         uses: andymckay/cancel-action@0.2
