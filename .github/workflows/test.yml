@@ -11,4 +11,11 @@ jobs:
   my_first_job:
      runs-on: ubuntu-latest
      steps: 
-      - run: echo 'Done'
+      - run: echo github.event.pull_request.user.login
+      - run: echo ${{ github.event.pull_request.user.login }}
+      - run: exit 1
+  
+  my_second_job:
+     runs-on: ubuntu-latest
+     steps: 
+      - run: npm install

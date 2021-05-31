@@ -1,25 +1,25 @@
-name: percy-test-status
+#name: percy-test-status
 
-on:
-  workflow_run:
-    workflows: ["push-to-master"]
-    types: 
+#on:
+ # workflow_run:
+  #  workflows: ["push-to-master"]
+  #  types: 
       - completed
-  pull_request:
-    types:
-      - unlabeled
-      - labeled
+  #pull_request:
+   # types:
+    #  - unlabeled
+     # - labeled
 
-jobs:
-  percy-test-status:
-    if: false == contains(github.event.pull_request.labels.*.name, 'check-percy-results-before-merge') || github.event.workflow_run.conclusion == 'success'
-    runs-on: ubuntu-latest
-    env:
-     TRIGGER_EVENT_NAME: ${{ github.event_name }}
-     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-     PR_SHA: ${{ github.event.pull_request.head.sha }}
-     PR_NUM: ${{ github.event.number }}
-     WKFL_SHA: ${{ github.event.workflow_run.head_commit.id }}      
+#jobs:
+ # percy-test-status:
+  #  if: false == contains(github.event.pull_request.labels.*.name, 'check-percy-results-before-merge') || github.event.workflow_run.conclusion == 'success'
+   # runs-on: ubuntu-latest
+   # env:
+     #TRIGGER_EVENT_NAME: ${{ github.event_name }}
+     #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+     #PR_SHA: ${{ github.event.pull_request.head.sha }}
+     #PR_NUM: ${{ github.event.number }}
+     #WKFL_SHA: ${{ github.event.workflow_run.head_commit.id }}      
 
     steps:
       - name: Checkout repo
