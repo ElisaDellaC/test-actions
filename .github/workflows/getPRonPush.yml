@@ -12,10 +12,10 @@ jobs:
     steps:
       - id: findPr
         name: Get PR number
-        uses: jwalton/gh-find-current-pr@v1.0.3
+        uses: jwalton/gh-find-current-pr@932bdfd
         env:
           PR: ${{ steps.findPr.outputs.pr }}
-          PR_NUM: ${{ steps.findPr.outputs.number }}
+          PR_NUM: ${{ steps.findPr.outputs.pr.number }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - run: | 
