@@ -12,7 +12,7 @@ jobs:
     steps:
       - id: findPr
         name: Get PR number
-        uses: jwalton/gh-find-current-pr@932bdfd
+        uses: jwalton/gh-find-current-pr@932bdfd921fa5374ac8d4ecebefd3eb6850c014c
         env:
           PR: ${{ steps.findPr.outputs.pr }}
           PR_NUM: ${{ steps.findPr.outputs.pr.number }}
