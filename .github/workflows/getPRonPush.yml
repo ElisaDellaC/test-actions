@@ -12,7 +12,7 @@ jobs:
     steps:
       - id: findPr
         name: Get PR number
-        uses: jwalton/gh-find-current-pr@b6f8d7342efe4913388d5d1ac7f4b956caa5db52
+        uses: jwalton/gh-find-current-pr@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - run: | 
@@ -21,3 +21,6 @@ jobs:
         env:
           PR: ${{ steps.findPr.outputs.pr }}
           PR_NUM: ${{ steps.findPr.outputs.number }}
+      - name: Fail if no PR is found
+        if: steps.findPr.outputs.number == ""
+        run: echo 'NO PR!!!!'
