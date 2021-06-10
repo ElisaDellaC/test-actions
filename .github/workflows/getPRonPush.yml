@@ -22,5 +22,5 @@ jobs:
           echo "Your PR is ${PR}"
           echo "Your PR number is ${PR_NUM}"
           echo "Fetch event number ${{ github.event.number }}"
-          echo ${{ github.event }} 
+          echo ${{ github.event.before }} 
         
