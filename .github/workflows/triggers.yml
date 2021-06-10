@@ -4,7 +4,7 @@
  # workflow_run:
   #  workflows: ["push-to-master"]
   #  types: 
-      - completed
+   #   - completed
   #pull_request:
    # types:
     #  - unlabeled
@@ -21,13 +21,13 @@
      #PR_NUM: ${{ github.event.number }}
      #WKFL_SHA: ${{ github.event.workflow_run.head_commit.id }}      
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Enable merge if no percy checks pending
-        shell: bash
-        run: | 
-          chmod +x ./.github/workflows/script.sh
-          bash -x  ./.github/workflows/script.sh
+   # steps:
+    #  - name: Checkout repo
+     #   uses: actions/checkout@v2
+      #  with:
+       #   fetch-depth: 0
+     # - name: Enable merge if no percy checks pending
+      #  shell: bash
+       # run: | 
+        #  chmod +x ./.github/workflows/script.sh
+         # bash -x  ./.github/workflows/script.sh

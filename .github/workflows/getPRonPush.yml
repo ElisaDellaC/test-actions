@@ -1,0 +1,20 @@
+name: get-pr-on-push
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  update-coverage-report:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Get PR number
+        uses: jwalton/gh-find-current-pr@v1
+        id: findPr
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: echo "Your PR is ${PR}"
+        env:
+          PR: ${{ steps.findPr.outputs.pr }}
