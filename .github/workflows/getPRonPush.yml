@@ -1,26 +1,15 @@
-name: get-pr-on-push
+
+name: test-pull
 on:
-  push:
-    branches:
-      - master
+  pull_request:
+    branches: master
+    types: [synchronize, opened, reopened, ready_for_review]
+
 
 jobs:
-  update-coverage-report:
+  test-me:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - id: findPr
-        name: Get PR number
-        uses: jwalton/gh-find-current-pr@b6f8d7342efe4913388d5d1ac7f4b956caa5db52
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-      - run: | 
-          echo "Your PR is ${PR}"
-          echo "Your PR number is ${PR_NUM}"
-        env:
-          PR: ${{ steps.findPr.outputs.pr }}
-          PR_NUM: ${{ steps.findPr.outputs.number }}
-      - name: Fail if no PR is found
-        if: steps.findPr.outputs.number == ''
-        run: echo 'NO PR!!!!'
+      - run: echo ${{ github.event.pull_request }}
